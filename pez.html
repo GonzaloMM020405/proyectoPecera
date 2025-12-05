@@ -1,0 +1,71 @@
+<html>
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
+
+<script>
+
+var accessToken = "99c310035654d2b55962d03a845d34abb1d172c8";
+var deviceID = "0a10aced202194944a067400";
+var url = "https://api.particle.io/v1/devices/" + deviceID + "/servo";
+
+function activar() {
+    $.post(url, {params: "activar", access_token: accessToken});
+}
+
+function enviarIntervalo() {
+    let d = document.getElementById("dias").value;
+    let h = document.getElementById("horas").value;
+    let m = document.getElementById("min").value;
+    let s = document.getElementById("seg").value;
+
+    let cmd = `intervalo,${d},${h},${m},${s}`;
+
+    $.post(url, {params: cmd, access_token: accessToken});
+}
+
+function programar() {
+    let año  = document.getElementById("a").value;
+    let mes  = document.getElementById("m").value;
+    let dia  = document.getElementById("d").value;
+    let hora = document.getElementById("h").value;
+    let min  = document.getElementById("mi").value;
+
+    let cmd = `programar,${año},${mes},${dia},${hora},${min}`;
+    $.post(url, {params: cmd, access_token: accessToken});
+}
+
+function stopModes() {
+    $.post(url, {params: "stop", access_token: accessToken});
+}
+
+</script>
+</head>
+
+<body>
+
+<h2>Control de Servomotor</h2>
+
+<button onclick="activar()">Activar ahora</button>
+<button onclick="stopModes()">Detener Modos</button>
+
+<h3>Intervalo libre</h3>
+
+Días: <input id="dias" type="number" value="0"><br>
+Horas: <input id="horas" type="number" value="0"><br>
+Minutos: <input id="min" type="number" value="30"><br>
+Segundos: <input id="seg" type="number" value="0"><br><br>
+
+<button onclick="enviarIntervalo()">Activar intervalos</button>
+
+<h3>Programar fecha/hora exacta</h3>
+
+Año:  <input id="a" type="number" value="2025"><br>
+Mes:  <input id="m" type="number" value="12"><br>
+Día:  <input id="d" type="number" value="3"><br>
+Hora: <input id="h" type="number" value="18"><br>
+Min:  <input id="mi" type="number" value="30"><br><br>
+
+<button onclick="programar()">Programar</button>
+
+</body>
+</html>
